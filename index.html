@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/e688cec7ac.js" crossorigin="anonymous"></script>
   <title>Ai weather news</title>
 </head>
 <body>
@@ -11,14 +12,17 @@
     <header>
       <h1>AI Weather & News Dashboard</h1>
     </header>
-    <div class="search-bar-container">
-      <input type="text" placeholder="Enter city to check weather..." class="search-bar">
-       <button class="search-btn">Search</button>
+    <div class="weather-container">
+      <div class="search-bar-container">
+        <input type="text" placeholder="Enter city to check weather..." class="search-bar">
+        <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </div>
+      <div class="weather-section"></div>
     </div>
-    <div class="weather-container"></div>
     <div class="news-container"></div>
     <div class="suggestion-container"></div>
     <div class="footer-container"></div>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>

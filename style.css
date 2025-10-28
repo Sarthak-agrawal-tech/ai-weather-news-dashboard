@@ -11,6 +11,24 @@ body{
   justify-content: center;
 }
 
+.weather-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  background-image: linear-gradient(to bottom, purple, blueviolet);
+  padding: 10px 28px;
+  border-radius: 22px;
+}
+
+.weather-icon i{
+  font-size: 96px;
+  color: white;;
+  margin-top: 40px;
+}
+
+
 .search-bar{
   width: 300px;;
   padding: 10px;
@@ -24,7 +42,29 @@ body{
   margin-left: 10px;
   border: none;
   border-radius: 20px;
-  background-color: #207cca;
-  color: white;
   cursor: pointer;
+}
+
+.weather-temp p{
+  font-size: 48px;
+  color: white;
+  margin-top: 10px;
+  font-family: sans-serif;
+  margin-bottom: 0px;
+}
+
+.city-details p{
+  font-size: 24px;
+  color: white;
+  margin-top: 18px;
+  font-family: sans-serif;
+}
+
+.weather-details{
+  color: white;
+  display: flex;
+  font-size: 18px;
+  flex-direction: row;
+  column-gap: 80px;
+  justify-content: space-between;
 }
