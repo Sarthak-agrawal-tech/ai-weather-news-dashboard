@@ -2,7 +2,7 @@ const API_KEY = "948d6acc64321df3fdc718b17b742546";
 const weatherSection = document.querySelector(".weather-section");
 const newsApikey = "pub_e89400b4b8974565a56f495469b51b5e";
 // Match the container actually present in index.html
-const newsSection = document.querySelector(".news-container");
+const newsSection = document.querySelector(".news-section");
 
 async function getWeather(city){
   const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`);
@@ -32,20 +32,18 @@ function displayWeather(data){
 }
 
 
-async function getNews(city) {
-  if (!city) {
+async function getNews(interest) {
+  if (!interest) {
     if (newsSection)
       newsSection.innerHTML = `<p>Please enter a search term.</p>`;
     return;
   }
   try {
     const response = await fetch(
-      `https://newsdata.io/api/1/latest?apikey=${newsApikey}&q=${encodeURIComponent(
-        city
-      )}`
+      `https://newsdata.io/api/1/latest?apikey=${newsApikey}&q=${interest}&language=en`
     );
     const data = await response.json();
-    displayNews(data, city);
+    displayNews(data, interest);
   } catch (err) {
     console.error("Failed to fetch news", err);
     if (newsSection)
@@ -53,7 +51,7 @@ async function getNews(city) {
   }
 }
 
-function displayNews(data, city) {
+function displayNews(data, interest) {
   if (!newsSection) return;
 
   // Some APIs use `results` (plural); older code used `result` (singular).
@@ -61,7 +59,7 @@ function displayNews(data, city) {
 
   if (!results || results.length === 0) {
     newsSection.innerHTML = `
-      <h2>Latest News on ${city}</h2>
+      <h2>Latest News on ${interest}</h2>
       <p>No articles found.</p>
     `;
     return;
@@ -83,22 +81,25 @@ function displayNews(data, city) {
       <div class="news-card">
         <h3>${title}</h3>
         <p>${description}</p>
-        ${link ? `<p class="read-more">${link}</p>` : ""}
         ${image}
+        ${link ? `<p class="read-more">${link}</p>` : ""}
       </div>
     `;
     })
     .join("");
 
   newsSection.innerHTML = `
-    <h2>Latest News on ${city}</h2>
+    <h2>Latest News on ${interest.toUpperCase()}</h2>
     ${cardsHtml}
   `;
 }
 
+document.querySelector('.news-search-btn').addEventListener('click',()=>{
+  const interest = document.querySelector(".news-search-bar").value;
+  getNews(interest);
+})
 const search = document.querySelector('.search-btn')
 search.addEventListener('click', ()=>{
   const city = document.querySelector(".search-bar").value;
   getWeather(city);
-  getNews(city);
 })
