@@ -5,7 +5,7 @@ const newsApikey = "pub_e89400b4b8974565a56f495469b51b5e";
 const newsSection = document.querySelector(".news-section");
 
 async function getWeather(city){
-  const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`);
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`);
   const data = await response.json();
   displayWeather(data);
 };
@@ -26,7 +26,7 @@ function displayWeather(data){
       </div>
       <div class="weather-details">
         <p><i class="fa-solid fa-wind"></i> ${data.wind.speed} wind speed</p>
-        <p><i class="fa-solid fa-wind"></i> ${data.main.humidity} humidity</p>
+        <p><i class="fa-solid fa-droplet"></i> ${data.main.humidity} humidity</p>
       </div>
   `
 }
@@ -103,3 +103,5 @@ search.addEventListener('click', ()=>{
   const city = document.querySelector(".search-bar").value;
   getWeather(city);
 })
+
+
