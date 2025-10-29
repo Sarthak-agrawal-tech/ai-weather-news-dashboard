@@ -68,3 +68,29 @@ body{
   column-gap: 80px;
   justify-content: space-between;
 }
+
+.news-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.news-card{
+  display: flex;
+  flex-direction: column;
+  background-color: #ccc;
+  border-radius: 12px;
+  padding: 10px 30px;
+}
+
+.news-card a{
+  text-decoration: none;
+  color: black;
+}
+
+.news-section{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}

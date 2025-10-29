@@ -1,5 +1,8 @@
 const API_KEY = "948d6acc64321df3fdc718b17b742546";
 const weatherSection = document.querySelector(".weather-section");
+const newsApikey = "pub_e89400b4b8974565a56f495469b51b5e";
+// Match the container actually present in index.html
+const newsSection = document.querySelector(".news-container");
 
 async function getWeather(city){
   const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${API_KEY}`);
@@ -28,8 +31,74 @@ function displayWeather(data){
   `
 }
 
+
+async function getNews(city) {
+  if (!city) {
+    if (newsSection)
+      newsSection.innerHTML = `<p>Please enter a search term.</p>`;
+    return;
+  }
+  try {
+    const response = await fetch(
+      `https://newsdata.io/api/1/latest?apikey=${newsApikey}&q=${encodeURIComponent(
+        city
+      )}`
+    );
+    const data = await response.json();
+    displayNews(data, city);
+  } catch (err) {
+    console.error("Failed to fetch news", err);
+    if (newsSection)
+      newsSection.innerHTML = `<p>Error fetching news: ${err.message}</p>`;
+  }
+}
+
+function displayNews(data, city) {
+  if (!newsSection) return;
+
+  // Some APIs use `results` (plural); older code used `result` (singular).
+  const results = data.results || data.result || [];
+
+  if (!results || results.length === 0) {
+    newsSection.innerHTML = `
+      <h2>Latest News on ${city}</h2>
+      <p>No articles found.</p>
+    `;
+    return;
+  }
+
+  // Build up to 5 news cards safely
+  const cardsHtml = results
+    .slice(0, 5)
+    .map((item) => {
+      const title = item.title || "No title";
+      const description = item.description || "";
+      const link = item.link
+        ? `<a href="${item.link}" target="_blank" rel="noopener">Read more</a>`
+        : "";
+      const image = item.image_url
+        ? `<img src="${item.image_url}" alt="">`
+        : "";
+      return `
+      <div class="news-card">
+        <h3>${title}</h3>
+        <p>${description}</p>
+        ${link ? `<p class="read-more">${link}</p>` : ""}
+        ${image}
+      </div>
+    `;
+    })
+    .join("");
+
+  newsSection.innerHTML = `
+    <h2>Latest News on ${city}</h2>
+    ${cardsHtml}
+  `;
+}
+
 const search = document.querySelector('.search-btn')
 search.addEventListener('click', ()=>{
   const city = document.querySelector(".search-bar").value;
   getWeather(city);
+  getNews(city);
 })
